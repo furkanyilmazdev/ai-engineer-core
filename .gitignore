@@ -1,4 +1,22 @@
+# --- Python Temizliği ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# --- uv & Paket Yönetimi ---
+# .venv klasörü kütüphaneleri tutar, GitHub'a gitmemeli
 .venv/
 .uv/
-__pycache__/
+
+# --- Proje Özel ---
+# API anahtarları ve gizli bilgiler burada olacak, sakın pushlama!
 .env
+
+# --- Editörler ---
+.vscode/
+.idea/
