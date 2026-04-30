@@ -20,3 +20,6 @@ ENV/
 # --- Editörler ---
 .vscode/
 .idea/
+
+fast_api_async_await/.venv/
+fast_api_async_await/__pycache__/
