@@ -6,9 +6,10 @@ class DataIngestor:
         self.client_name = "AI-Ingestor-v1"
 
     async def process_data(self, payload: dict):
-        # 1. Dış API çağrısını simüle et (Network I/O)
-        print(f"[{self.client_name}] Dış API'ye bağlanılıyor...")
-        await asyncio.sleep(2) 
+        # Bos veriyle islem yapma 
+        if not payload or "data" not in payload:
+            raise InvalidDataFormatError("Data alanı eksik veya boş gonderildi.")
+        
 
         # 2. Mantıksal kontrol ve Hata Fırlatma
         # Eğer payload içinde 'data' anahtarı yoksa hata fırlatıyoruz
@@ -16,4 +17,4 @@ class DataIngestor:
             raise InvalidDataFormatError("Payload 'data' alanını içermeli ve boş olmamalıdır.")
 
         # 3. Başarılı senaryo
-        return {"status": "processed", "length": len(payload["data"])}
+        return {"status": "success"}
