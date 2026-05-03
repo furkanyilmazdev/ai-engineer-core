@@ -2,23 +2,21 @@ import pandas as pd
 import io
 from typing import List, Dict
 
+# services/processor.py
+import pandas as pd
+import io
+
 class DataProcessor:
-    def __init__(self):
-        self.description = "Pandas tabanlı veri temizleyici"
-
-    def clean_csv_data(self, csv_content: bytes) -> List[Dict]:
-        # Bayt verisini Pandas ile okuyoruz
-        df = pd.read_csv(io.BytesIO(csv_content))
-
-        # 1. Boş (NaN) satırları temizle
-        df_cleaned = df.dropna()
-
-        # 2. Basit bir manipülasyon: Sütun isimlerini küçük harf yap
-        df_cleaned.columns = [col.lower() for col in df_cleaned.columns]
-
-        # 3. Örnek bir manipülasyon: 'price' sütunu varsa %20 vergi ekle (varsayalım)
-        if 'price' in df_cleaned.columns:
-            df_cleaned['price_with_tax'] = df_cleaned['price'] * 1.20
-
-        # Temiz veriyi JSON formatına (liste içinde sözlükler) dönüştür
-        return df_cleaned.to_dict(orient="records")
+    def clean_csv_sync(self, content: bytes):
+        """
+        Ağır CPU işlemi: Veriyi DataFrame'e çevirir ve temizler.
+        Bu fonksiyon senkrondur (async değildir).
+        """
+        # Bytes içeriğini bir dosya gibi okuyoruz
+        df = pd.read_csv(io.BytesIO(content))
+        
+        # NaN değerleri temizleme (Örn: Boş satırları sil, sayısal yerlere 0 koy)
+        df = df.dropna(how='all') # Tamamen boş satırları sil
+        df = df.fillna(0)         # Geri kalan boşlukları 0 ile doldur
+        
+        return df.to_dict(orient="records")
